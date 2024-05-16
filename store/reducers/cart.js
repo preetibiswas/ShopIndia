@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import {ADD_TO_CART} from '../actions/cart';
+import {ADD_TO_CART, REMOVE_TO_CART} from '../actions/cart';
 import CartItem from '../../modal/cartI-item';
 const initialState = {
   items: {},
@@ -32,6 +32,29 @@ export default (state = initialState, action) => {
           totalAmount: state.totalAmount + ProPrice,
         };
       }
+    case REMOVE_TO_CART:
+      const selectedCartItem = state.items[action.pId];
+      const currentQuantity = selectedCartItem.quantity;
+      let updatedCartItems;
+      if (currentQuantity > 1) {
+        const updatedCartItem = new CartItem(
+          selectedCartItem.quantity - 1,
+          selectedCartItem.productPrice,
+          selectedCartItem.productTitle,
+          selectedCartItem.sum - selectedCartItem.productPrice,
+        );
+        updatedCartItems = {...state.items, [action.pId]: updatedCartItem};
+      } else {
+        updatedCartItems = {...state.items};
+        delete updatedCartItems[action.pId];
+      }
+
+      return {
+        ...state,
+        items: updatedCartItems,
+        totalAmount: state.totalAmount - selectedCartItem.productPrice,
+      };
+
     default:
       return state; // Add this default case
   }
