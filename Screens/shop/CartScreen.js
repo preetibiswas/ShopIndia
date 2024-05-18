@@ -1,9 +1,10 @@
 /* eslint-disable prettier/prettier */
 import {Button, StyleSheet, Text, View, FlatList} from 'react-native';
-import React from 'react';
+import React, {useMemo} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import CartItem from '../../component/shop/CartItem';
 import * as cartActions from '../../store/actions/cart';
+import * as orderActions from '../../store/actions/order';
 
 export default function CartScreen() {
   const dispatch = useDispatch();
@@ -22,13 +23,20 @@ export default function CartScreen() {
     return transformedCartItem;
   });
   console.log('aarush', cartItems);
+
   return (
     <View style={styles.screen}>
       <View style={styles.summary}>
         <Text style={styles.summryTxt}>
           Total:<Text style={styles.amount}>${cartTotalAmt.toFixed(2)}</Text>
         </Text>
-        <Button title="Order Now" disabled={cartItems.length === 0} />
+        <Button
+          title="Order Now"
+          disabled={cartItems.length === 0}
+          onPress={() =>
+            dispatch(orderActions.addorder(cartItems, cartTotalAmt))
+          }
+        />
       </View>
       <View>
         <FlatList

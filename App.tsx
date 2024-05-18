@@ -8,10 +8,13 @@ import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {NavigationContainer} from '@react-navigation/native';
 import Productnavigator from './navigation/ShopNavigator';
 import cartReducer from './store/reducers/cart';
+import orderReducer from './store/reducers/order';
+import ShopNavigator from './navigation/ShopNavigator';
 
 const rootReducer = combineReducers({
   product: productReducer,
   cart: cartReducer,
+  order: orderReducer,
 });
 const store = createStore(rootReducer);
 
@@ -20,7 +23,7 @@ export default function App() {
     <GestureHandlerRootView style={{flex: 1}}>
       <Provider store={store}>
         <NavigationContainer>
-          <Productnavigator />
+          <ShopNavigator />
         </NavigationContainer>
       </Provider>
     </GestureHandlerRootView>
