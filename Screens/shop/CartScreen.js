@@ -5,23 +5,41 @@ import {useSelector, useDispatch} from 'react-redux';
 import CartItem from '../../component/shop/CartItem';
 import * as cartActions from '../../store/actions/cart';
 import * as orderActions from '../../store/actions/order';
+import {createSelector} from 'reselect';
 
 export default function CartScreen() {
   const dispatch = useDispatch();
   const cartTotalAmt = useSelector(state => state.cart.totalAmount);
-  const cartItems = useSelector(state => {
-    const transformedCartItem = [];
-    for (const key in state.cart.items) {
-      transformedCartItem.push({
-        productId: key,
-        productTitle: state.cart.items[key].productTitle,
-        productPrice: state.cart.items[key].productPrice,
-        quantity: state.cart.items[key].quantity,
-        sum: state.cart.items[key].sum,
-      });
-    }
-    return transformedCartItem;
-  });
+  const cartItemsSelector = createSelector(
+    state => state.cart.items,
+    items => {
+      const transformedCartItem = [];
+      for (const key in items) {
+        transformedCartItem.push({
+          productId: key,
+          productTitle: items[key].productTitle,
+          productPrice: items[key].productPrice,
+          quantity: items[key].quantity,
+          sum: items[key].sum,
+        });
+      }
+      return transformedCartItem;
+    },
+  );
+  const cartItems = useSelector(cartItemsSelector);
+  // const cartItems = useSelector(state => {
+  //   const transformedCartItem = [];
+  //   for (const key in state.cart.items) {
+  //     transformedCartItem.push({
+  //       productId: key,
+  //       productTitle: state.cart.items[key].productTitle,
+  //       productPrice: state.cart.items[key].productPrice,
+  //       quantity: state.cart.items[key].quantity,
+  //       sum: state.cart.items[key].sum,
+  //     });
+  //   }
+  //   return transformedCartItem;
+  // });
   console.log('aarush', cartItems);
 
   return (

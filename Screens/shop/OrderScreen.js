@@ -2,6 +2,7 @@
 import {StyleSheet, Text, View, FlatList} from 'react-native';
 import React from 'react';
 import {useSelector} from 'react-redux';
+import OrderItem from '../../component/shop/OrderItem';
 
 export default function OrderScreen() {
   const order = useSelector(state => state.order.orders);
@@ -12,7 +13,10 @@ export default function OrderScreen() {
       data={order}
       keyExtractor={item => item.id}
       renderItem={itemData => (
-        <Text>{itemData.item.totalAmount?.toFixed(2)}</Text>
+        <OrderItem
+          amount={itemData.item.totalAmount}
+          date={itemData.item.readableDate}
+        />
       )}
     />
   );

@@ -15,6 +15,7 @@ const Stack = createNativeStackNavigator();
 
 const OrderNavigator = () => (
   <Stack.Navigator
+    initialRouteName="orders"
     screenOptions={({navigation, route}) => ({
       headerStyle: {backgroundColor: '#C2185B'},
       headerTintColor: 'white',
