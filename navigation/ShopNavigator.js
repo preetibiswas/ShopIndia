@@ -188,7 +188,16 @@ const Adminnavigator = () => (
         ),
       })}
     />
-    <Stack.Screen name="EditProduct" component={EditProductScreen} />
+    <Stack.Screen
+      name="EditProduct"
+      component={EditProductScreen}
+      options={({route, navigation}) => ({
+        title: route.params?.productId ? 'Edit Product' : 'Add Product',
+        headerRight: () => (
+          <Icon name="check" color="#fff" size={30} onPress={() => {}} />
+        ),
+      })}
+    />
   </Stack.Navigator>
 );
 
