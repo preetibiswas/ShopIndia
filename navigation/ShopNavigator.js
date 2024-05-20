@@ -9,6 +9,7 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import OrderScreen from '../Screens/shop/OrderScreen';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import UserProductScreen from '../Screens/user/UserProductScreen';
+import EditProductScreen from '../Screens/user/EditProductScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -138,20 +139,56 @@ const Adminnavigator = () => (
       headerStyle: {backgroundColor: '#C2185B'},
       statusBarColor: '#C2185B',
       headerTintColor: 'white',
-      headerLeft: () => {
-        return (
-          <Icon
-            name="menu"
-            color="#fff"
-            size={30}
-            onPress={() => navigation.openDrawer()}
-            style={{marginLeft: 10}}
-          />
-        );
-      },
+      // eslint-disable-next-line react/no-unstable-nested-components
+      // headerLeft: () => {
+      //   return (
+      //     <Icon
+      //       name="menu"
+      //       color="#fff"
+      //       size={30}
+      //       onPress={() => navigation.openDrawer()}
+      //       style={{marginLeft: 10}}
+      //     />
+      //   );
+      // },
+      headerLeft: () => (
+        <>
+          {navigation.canGoBack() && (
+            <Icon
+              name="arrow-left"
+              color="#fff"
+              size={30}
+              onPress={() => navigation.goBack()}
+            />
+          )}
+          {!navigation.canGoBack() && (
+            <Icon
+              name="menu"
+              color="#fff"
+              size={30}
+              onPress={() => navigation.openDrawer()}
+              style={{marginLeft: 10}}
+            />
+          )}
+        </>
+      ),
     })}
   >
-    <Stack.Screen name="userProduct" component={UserProductScreen} />
+    <Stack.Screen
+      name="userProduct"
+      component={UserProductScreen}
+      options={({navigation}) => ({
+        headerRight: () => (
+          <Icon
+            name="pencil"
+            color="#fff"
+            size={30}
+            onPress={() => navigation.navigate('EditProduct')}
+          />
+        ),
+      })}
+    />
+    <Stack.Screen name="EditProduct" component={EditProductScreen} />
   </Stack.Navigator>
 );
 
