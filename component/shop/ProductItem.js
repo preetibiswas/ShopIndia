@@ -11,14 +11,14 @@ import {
 } from 'react-native';
 import React from 'react';
 
-export default function ProductItem({items, onViewDetail, onAddCart}) {
+export default function ProductItem({items, onSelect, onAddCart, children}) {
   let TouchableCmp = TouchableOpacity;
   if (Platform.OS === 'android' && Platform.Version >= 21) {
     TouchableCmp = TouchableNativeFeedback;
   }
   return (
     <View style={styles.product}>
-      <TouchableCmp onPress={onViewDetail}>
+      <TouchableCmp onPress={onSelect}>
         <View>
           <View style={styles.imageCon}>
             <Image
@@ -31,12 +31,13 @@ export default function ProductItem({items, onViewDetail, onAddCart}) {
             <Text style={styles.price}>${items.Price}</Text>
           </View>
           <View style={styles.action}>
-            <Button
+            {/* <Button
               title="View Detail"
               onPress={onViewDetail}
               color="#C2185B"
             />
-            <Button title="To cart" onPress={onAddCart} color="#FDDE55" />
+            <Button title="To cart" onPress={onAddCart} color="#FDDE55" /> */}
+            {children}
           </View>
         </View>
       </TouchableCmp>
