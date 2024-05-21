@@ -2,13 +2,15 @@
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
 import {TextInput} from 'react-native-gesture-handler';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
+import * as productActions from '../../store/actions/product';
 
 export default function EditProductScreen({navigation, route}) {
   const prodId = route.params?.productId;
   const editedPro = useSelector(state =>
     state.product.userProduct.find(prod => prod.id === prodId),
   );
+  const dispatch = useDispatch();
   console.log('arjun', prodId);
   const [title, setTitle] = useState(editedPro ? editedPro.title : '');
   const [imageUrl, setImageUrl] = useState(editedPro ? editedPro.imageUrl : '');
@@ -18,7 +20,17 @@ export default function EditProductScreen({navigation, route}) {
   );
   const submitHandle = useCallback(() => {
     console.log('submited');
-  }, []);
+    if (editedPro) {
+      dispatch(
+        productActions.updateProduct(prodId, title, description, imageUrl),
+      );
+    } else {
+      dispatch(
+        productActions.createProduct(title, description, imageUrl, Price),
+      );
+    }
+    navigation.goBack();
+  }, [dispatch, prodId, title, description, imageUrl, Price, navigation]);
   useEffect(() => {
     navigation.setParams({submit: submitHandle});
   }, [submitHandle]);
