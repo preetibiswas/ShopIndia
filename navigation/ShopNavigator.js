@@ -193,9 +193,12 @@ const Adminnavigator = () => (
       component={EditProductScreen}
       options={({route, navigation}) => ({
         title: route.params?.productId ? 'Edit Product' : 'Add Product',
-        headerRight: () => (
-          <Icon name="check" color="#fff" size={30} onPress={() => {}} />
-        ),
+        headerRight: () => {
+          const submitFn = route.params?.submit;
+          return (
+            <Icon name="check" color="#fff" size={30} onPress={submitFn} />
+          );
+        },
       })}
     />
   </Stack.Navigator>

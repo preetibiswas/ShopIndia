@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
-import React, {useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {TextInput} from 'react-native-gesture-handler';
 import {useSelector} from 'react-redux';
 
@@ -16,6 +16,12 @@ export default function EditProductScreen({navigation, route}) {
   const [description, setDiscription] = useState(
     editedPro ? editedPro.description : '',
   );
+  const submitHandle = useCallback(() => {
+    console.log('submited');
+  }, []);
+  useEffect(() => {
+    navigation.setParams({submit: submitHandle});
+  }, [submitHandle]);
   return (
     <ScrollView>
       <View style={styles.form}>
